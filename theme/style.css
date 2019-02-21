@@ -72,7 +72,7 @@ pre code {
 --------------------------------------------------------- */
 
 table {
-  max-width: 100%;
+  max-width: 10%;
   background-color: transparent;
   border-collapse: collapse;
   border-spacing: 0;
@@ -141,6 +141,71 @@ table {
 .table-hover tbody tr:hover > th {
   background-color: #f5f5f5;
 }
+
+.dataframe {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.dataframe th,
+.dataframe td {
+    padding: 8px;
+    line-height: 20px;
+    text-align: left;
+    vertical-align: top;
+    border-top: 1px solid #dddddd;
+}
+
+.dataframe th {
+    font-weight: bold;
+}
+
+.dataframe thead th {
+    vertical-align: bottom;
+}
+
+.dataframe caption + thead tr:first-child th,
+.dataframe caption + thead tr:first-child td,
+.dataframe colgroup + thead tr:first-child th,
+.dataframe colgroup + thead tr:first-child td,
+.dataframe thead:first-child tr:first-child th,
+.dataframe thead:first-child tr:first-child td {
+    border-top: 0;
+}
+
+.dataframe tbody + tbody {
+    border-top: 2px solid #dddddd;
+}
+
+.dataframe .dataframe {
+    background-color: #ffffff;
+}
+
+.dataframe-condensed th,
+.dataframe-condensed td {
+    padding: 4px 5px;
+}
+
+.dataframe-bordered {
+    border: 1px solid #dddddd;
+    border-collapse: separate;
+    *border-collapse: collapse;
+    border-left: 0;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.dataframe-striped tbody > tr:nth-child(odd) > td,
+.dataframe-striped tbody > tr:nth-child(odd) > th {
+    background-color: #f9f9f9;
+}
+
+.dataframe-hover tbody tr:hover > td,
+.dataframe-hover tbody tr:hover > th {
+    background-color: #f5f5f5;
+}
+
 
 table td[class*="span"],
 table th[class*="span"],
