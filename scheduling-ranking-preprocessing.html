@@ -1,0 +1,3153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+        <title>Preprocessing for WTA Tournament Scheduling</title>
+        <meta charset="utf-8" />
+        <link href="https://joshkaps.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Distributions of Federer Full Atom Feed" />
+        <link href="https://joshkaps.github.io/feeds/%s.atom.xml" type="application/atom+xml" rel="alternate" title="Distributions of Federer Categories Atom Feed" />
+
+
+        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="https://joshkaps.github.io/theme/gumby.css" />
+        <link rel="stylesheet" type="text/css" href="https://joshkaps.github.io/theme/style.css" />
+        <link rel="stylesheet" type="text/css" href="https://joshkaps.github.io/theme/pygment.css" />
+
+        <script src="https://joshkaps.github.io/theme/js/libs/modernizr-2.6.2.min.js"></script>
+
+
+
+
+</head>
+
+<body id="index" class="home">
+
+
+    <div class="container">
+
+        <div class="row">
+
+          <header id="banner" class="body">
+                  <h1><a href="https://joshkaps.github.io/">Distributions of Federer <strong></strong></a></h1>
+          </header><!-- /#banner -->
+
+            <div id="navigation" class="navbar row">
+              <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
+             
+              <ul class="columns">
+                <li><a href="https://joshkaps.github.io/">Home</a></li>
+
+
+              </ul>
+            </div>
+
+<section id="content" class="body">
+
+   <div class="row">
+        <div class="eleven columns">
+
+
+            <header>
+              <h2 class="entry-title">
+                <a href="https://joshkaps.github.io/scheduling-ranking-preprocessing.html" rel="bookmark"
+                   title="Permalink to Preprocessing for WTA Tournament Scheduling">Preprocessing for WTA Tournament Scheduling</a></h2>
+           
+            </header>
+            <footer class="post-info">
+              <abbr class="published" title="2019-04-02T12:00:00-07:00">
+                Tue 02 April 2019
+              </abbr>
+              <address class="vcard author">By 
+                <a class="url fn" href="https://joshkaps.github.io/author/joshuah-kapilivsky.html"> Joshuah Kapilivsky</a>
+              </address>
+            </footer><!-- /.post-info -->
+            <div class="entry-content">
+              <style type="text/css">/*!
+*
+* IPython notebook
+*
+*/
+/* CSS font colors for translated ANSI colors. */
+.ansibold {
+  font-weight: bold;
+}
+/* use dark versions for foreground, to improve visibility */
+.ansiblack {
+  color: black;
+}
+.ansired {
+  color: darkred;
+}
+.ansigreen {
+  color: darkgreen;
+}
+.ansiyellow {
+  color: #c4a000;
+}
+.ansiblue {
+  color: darkblue;
+}
+.ansipurple {
+  color: darkviolet;
+}
+.ansicyan {
+  color: steelblue;
+}
+.ansigray {
+  color: gray;
+}
+/* and light for background, for the same reason */
+.ansibgblack {
+  background-color: black;
+}
+.ansibgred {
+  background-color: red;
+}
+.ansibggreen {
+  background-color: green;
+}
+.ansibgyellow {
+  background-color: yellow;
+}
+.ansibgblue {
+  background-color: blue;
+}
+.ansibgpurple {
+  background-color: magenta;
+}
+.ansibgcyan {
+  background-color: cyan;
+}
+.ansibggray {
+  background-color: gray;
+}
+div.cell {
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  border-radius: 2px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border-width: 1px;
+  border-style: solid;
+  border-color: transparent;
+  width: 100%;
+  padding: 5px;
+  /* This acts as a spacer between cells, that is outside the border */
+  margin: 0px;
+  outline: none;
+  border-left-width: 1px;
+  padding-left: 5px;
+  background: linear-gradient(to right, transparent -40px, transparent 1px, transparent 1px, transparent 100%);
+}
+div.cell.jupyter-soft-selected {
+  border-left-color: #90CAF9;
+  border-left-color: #E3F2FD;
+  border-left-width: 1px;
+  padding-left: 5px;
+  border-right-color: #E3F2FD;
+  border-right-width: 1px;
+  background: #E3F2FD;
+}
+@media print {
+  div.cell.jupyter-soft-selected {
+    border-color: transparent;
+  }
+}
+div.cell.selected {
+  border-color: #ababab;
+  border-left-width: 0px;
+  padding-left: 6px;
+  background: linear-gradient(to right, #42A5F5 -40px, #42A5F5 5px, transparent 5px, transparent 100%);
+}
+@media print {
+  div.cell.selected {
+    border-color: transparent;
+  }
+}
+div.cell.selected.jupyter-soft-selected {
+  border-left-width: 0;
+  padding-left: 6px;
+  background: linear-gradient(to right, #42A5F5 -40px, #42A5F5 7px, #E3F2FD 7px, #E3F2FD 100%);
+}
+.edit_mode div.cell.selected {
+  border-color: #66BB6A;
+  border-left-width: 0px;
+  padding-left: 6px;
+  background: linear-gradient(to right, #66BB6A -40px, #66BB6A 5px, transparent 5px, transparent 100%);
+}
+@media print {
+  .edit_mode div.cell.selected {
+    border-color: transparent;
+  }
+}
+.prompt {
+  /* This needs to be wide enough for 3 digit prompt numbers: In[100]: */
+  min-width: 14ex;
+  /* This padding is tuned to match the padding on the CodeMirror editor. */
+  padding: 0.4em;
+  margin: 0px;
+  font-family: monospace;
+  text-align: right;
+  /* This has to match that of the the CodeMirror class line-height below */
+  line-height: 1.21429em;
+  /* Don't highlight prompt number selection */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /* Use default cursor */
+  cursor: default;
+}
+@media (max-width: 540px) {
+  .prompt {
+    text-align: left;
+  }
+}
+div.inner_cell {
+  min-width: 0;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  /* Old browsers */
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+  /* Modern browsers */
+  flex: 1;
+}
+/* input_area and input_prompt must match in top border and margin for alignment */
+div.input_area {
+  border: 1px solid #cfcfcf;
+  border-radius: 2px;
+  background: #f7f7f7;
+  line-height: 1.21429em;
+}
+/* This is needed so that empty prompt areas can collapse to zero height when there
+   is no content in the output_subarea and the prompt. The main purpose of this is
+   to make sure that empty JavaScript output_subareas have no height. */
+div.prompt:empty {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+div.unrecognized_cell {
+  padding: 5px 5px 5px 0px;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: horizontal;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+div.unrecognized_cell .inner_cell {
+  border-radius: 2px;
+  padding: 5px;
+  font-weight: bold;
+  color: red;
+  border: 1px solid #cfcfcf;
+  background: #eaeaea;
+}
+div.unrecognized_cell .inner_cell a {
+  color: inherit;
+  text-decoration: none;
+}
+div.unrecognized_cell .inner_cell a:hover {
+  color: inherit;
+  text-decoration: none;
+}
+@media (max-width: 540px) {
+  div.unrecognized_cell > div.prompt {
+    display: none;
+  }
+}
+div.code_cell {
+  /* avoid page breaking on code cells when printing */
+}
+@media print {
+  div.code_cell {
+    page-break-inside: avoid;
+  }
+}
+/* any special styling for code cells that are currently running goes here */
+div.input {
+  page-break-inside: avoid;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: horizontal;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+@media (max-width: 540px) {
+  div.input {
+    /* Old browsers */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-box-align: stretch;
+    display: -moz-box;
+    -moz-box-orient: vertical;
+    -moz-box-align: stretch;
+    display: box;
+    box-orient: vertical;
+    box-align: stretch;
+    /* Modern browsers */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+/* input_area and input_prompt must match in top border and margin for alignment */
+div.input_prompt {
+  color: #303F9F;
+  border-top: 1px solid transparent;
+}
+div.input_area > div.highlight {
+  margin: 0.4em;
+  border: none;
+  padding: 0px;
+  background-color: transparent;
+}
+div.input_area > div.highlight > pre {
+  margin: 0px;
+  border: none;
+  padding: 0px;
+  background-color: transparent;
+}
+/* The following gets added to the <head> if it is detected that the user has a
+ * monospace font with inconsistent normal/bold/italic height.  See
+ * notebookmain.js.  Such fonts will have keywords vertically offset with
+ * respect to the rest of the text.  The user should select a better font.
+ * See: https://github.com/ipython/ipython/issues/1503
+ *
+ * .CodeMirror span {
+ *      vertical-align: bottom;
+ * }
+ */
+.CodeMirror {
+  line-height: 1.21429em;
+  /* Changed from 1em to our global default */
+  font-size: 14px;
+  height: auto;
+  /* Changed to auto to autogrow */
+  background: none;
+  /* Changed from white to allow our bg to show through */
+}
+.CodeMirror-scroll {
+  /*  The CodeMirror docs are a bit fuzzy on if overflow-y should be hidden or visible.*/
+  /*  We have found that if it is visible, vertical scrollbars appear with font size changes.*/
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+.CodeMirror-lines {
+  /* In CM2, this used to be 0.4em, but in CM3 it went to 4px. We need the em value because */
+  /* we have set a different line-height and want this to scale with that. */
+  padding: 0.4em;
+}
+.CodeMirror-linenumber {
+  padding: 0 8px 0 4px;
+}
+.CodeMirror-gutters {
+  border-bottom-left-radius: 2px;
+  border-top-left-radius: 2px;
+}
+.CodeMirror pre {
+  /* In CM3 this went to 4px from 0 in CM2. We need the 0 value because of how we size */
+  /* .CodeMirror-lines */
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+}
+/*
+
+Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>
+Adapted from GitHub theme
+
+*/
+.highlight-base {
+  color: #000;
+}
+.highlight-variable {
+  color: #000;
+}
+.highlight-variable-2 {
+  color: #1a1a1a;
+}
+.highlight-variable-3 {
+  color: #333333;
+}
+.highlight-string {
+  color: #BA2121;
+}
+.highlight-comment {
+  color: #408080;
+  font-style: italic;
+}
+.highlight-number {
+  color: #080;
+}
+.highlight-atom {
+  color: #88F;
+}
+.highlight-keyword {
+  color: #008000;
+  font-weight: bold;
+}
+.highlight-builtin {
+  color: #008000;
+}
+.highlight-error {
+  color: #f00;
+}
+.highlight-operator {
+  color: #AA22FF;
+  font-weight: bold;
+}
+.highlight-meta {
+  color: #AA22FF;
+}
+/* previously not defined, copying from default codemirror */
+.highlight-def {
+  color: #00f;
+}
+.highlight-string-2 {
+  color: #f50;
+}
+.highlight-qualifier {
+  color: #555;
+}
+.highlight-bracket {
+  color: #997;
+}
+.highlight-tag {
+  color: #170;
+}
+.highlight-attribute {
+  color: #00c;
+}
+.highlight-header {
+  color: blue;
+}
+.highlight-quote {
+  color: #090;
+}
+.highlight-link {
+  color: #00c;
+}
+/* apply the same style to codemirror */
+.cm-s-ipython span.cm-keyword {
+  color: #008000;
+  font-weight: bold;
+}
+.cm-s-ipython span.cm-atom {
+  color: #88F;
+}
+.cm-s-ipython span.cm-number {
+  color: #080;
+}
+.cm-s-ipython span.cm-def {
+  color: #00f;
+}
+.cm-s-ipython span.cm-variable {
+  color: #000;
+}
+.cm-s-ipython span.cm-operator {
+  color: #AA22FF;
+  font-weight: bold;
+}
+.cm-s-ipython span.cm-variable-2 {
+  color: #1a1a1a;
+}
+.cm-s-ipython span.cm-variable-3 {
+  color: #333333;
+}
+.cm-s-ipython span.cm-comment {
+  color: #408080;
+  font-style: italic;
+}
+.cm-s-ipython span.cm-string {
+  color: #BA2121;
+}
+.cm-s-ipython span.cm-string-2 {
+  color: #f50;
+}
+.cm-s-ipython span.cm-meta {
+  color: #AA22FF;
+}
+.cm-s-ipython span.cm-qualifier {
+  color: #555;
+}
+.cm-s-ipython span.cm-builtin {
+  color: #008000;
+}
+.cm-s-ipython span.cm-bracket {
+  color: #997;
+}
+.cm-s-ipython span.cm-tag {
+  color: #170;
+}
+.cm-s-ipython span.cm-attribute {
+  color: #00c;
+}
+.cm-s-ipython span.cm-header {
+  color: blue;
+}
+.cm-s-ipython span.cm-quote {
+  color: #090;
+}
+.cm-s-ipython span.cm-link {
+  color: #00c;
+}
+.cm-s-ipython span.cm-error {
+  color: #f00;
+}
+.cm-s-ipython span.cm-tab {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAMCAYAAAAkuj5RAAAAAXNSR0IArs4c6QAAAGFJREFUSMft1LsRQFAQheHPowAKoACx3IgEKtaEHujDjORSgWTH/ZOdnZOcM/sgk/kFFWY0qV8foQwS4MKBCS3qR6ixBJvElOobYAtivseIE120FaowJPN75GMu8j/LfMwNjh4HUpwg4LUAAAAASUVORK5CYII=);
+  background-position: right;
+  background-repeat: no-repeat;
+}
+div.output_wrapper {
+  /* this position must be relative to enable descendents to be absolute within it */
+  position: relative;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  z-index: 1;
+}
+/* class for the output area when it should be height-limited */
+div.output_scroll {
+  /* ideally, this would be max-height, but FF barfs all over that */
+  height: 24em;
+  /* FF needs this *and the wrapper* to specify full width, or it will shrinkwrap */
+  width: 100%;
+  overflow: auto;
+  border-radius: 2px;
+  -webkit-box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8);
+  display: block;
+}
+/* output div while it is collapsed */
+div.output_collapsed {
+  margin: 0px;
+  padding: 0px;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+div.out_prompt_overlay {
+  height: 100%;
+  padding: 0px 0.4em;
+  position: absolute;
+  border-radius: 2px;
+}
+div.out_prompt_overlay:hover {
+  /* use inner shadow to get border that is computed the same on WebKit/FF */
+  -webkit-box-shadow: inset 0 0 1px #000;
+  box-shadow: inset 0 0 1px #000;
+  background: rgba(240, 240, 240, 0.5);
+}
+div.output_prompt {
+  color: #D84315;
+}
+/* This class is the outer container of all output sections. */
+div.output_area {
+  padding: 0px;
+  page-break-inside: avoid;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: horizontal;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+div.output_area .MathJax_Display {
+  text-align: left !important;
+}
+div.output_area 
+div.output_area 
+div.output_area img,
+div.output_area svg {
+  max-width: 100%;
+  height: auto;
+}
+div.output_area img.unconfined,
+div.output_area svg.unconfined {
+  max-width: none;
+}
+/* This is needed to protect the pre formating from global settings such
+   as that of bootstrap */
+.output {
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+@media (max-width: 540px) {
+  div.output_area {
+    /* Old browsers */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-box-align: stretch;
+    display: -moz-box;
+    -moz-box-orient: vertical;
+    -moz-box-align: stretch;
+    display: box;
+    box-orient: vertical;
+    box-align: stretch;
+    /* Modern browsers */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+div.output_area pre {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+  color: black;
+  background-color: transparent;
+  border-radius: 0;
+}
+/* This class is for the output subarea inside the output_area and after
+   the prompt div. */
+div.output_subarea {
+  overflow-x: auto;
+  padding: 0.4em;
+  /* Old browsers */
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+  /* Modern browsers */
+  flex: 1;
+  max-width: calc(100% - 14ex);
+}
+div.output_scroll div.output_subarea {
+  overflow-x: visible;
+}
+/* The rest of the output_* classes are for special styling of the different
+   output types */
+/* all text output has this class: */
+div.output_text {
+  text-align: left;
+  color: #000;
+  /* This has to match that of the the CodeMirror class line-height below */
+  line-height: 1.21429em;
+}
+/* stdout/stderr are 'text' as well as 'stream', but execute_result/error are *not* streams */
+div.output_stderr {
+  background: #fdd;
+  /* very light red background for stderr */
+}
+div.output_latex {
+  text-align: left;
+}
+/* Empty output_javascript divs should have no height */
+div.output_javascript:empty {
+  padding: 0;
+}
+.js-error {
+  color: darkred;
+}
+/* raw_input styles */
+div.raw_input_container {
+  line-height: 1.21429em;
+  padding-top: 5px;
+}
+pre.raw_input_prompt {
+  /* nothing needed here. */
+}
+input.raw_input {
+  font-family: monospace;
+  font-size: inherit;
+  color: inherit;
+  width: auto;
+  /* make sure input baseline aligns with prompt */
+  vertical-align: baseline;
+  /* padding + margin = 0.5em between prompt and cursor */
+  padding: 0em 0.25em;
+  margin: 0em 0.25em;
+}
+input.raw_input:focus {
+  box-shadow: none;
+}
+p.p-space {
+  margin-bottom: 10px;
+}
+div.output_unrecognized {
+  padding: 5px;
+  font-weight: bold;
+  color: red;
+}
+div.output_unrecognized a {
+  color: inherit;
+  text-decoration: none;
+}
+div.output_unrecognized a:hover {
+  color: inherit;
+  text-decoration: none;
+}
+.rendered_html {
+  color: #000;
+  /* any extras will just be numbers: */
+}
+
+
+
+.rendered_html :link {
+  text-decoration: underline;
+}
+.rendered_html :visited {
+  text-decoration: underline;
+}
+
+
+
+
+
+
+.rendered_html h1:first-child {
+  margin-top: 0.538em;
+}
+.rendered_html h2:first-child {
+  margin-top: 0.636em;
+}
+.rendered_html h3:first-child {
+  margin-top: 0.777em;
+}
+.rendered_html h4:first-child {
+  margin-top: 1em;
+}
+.rendered_html h5:first-child {
+  margin-top: 1em;
+}
+.rendered_html h6:first-child {
+  margin-top: 1em;
+}
+
+
+
+
+
+
+
+
+.rendered_html * + ul {
+  margin-top: 1em;
+}
+.rendered_html * + ol {
+  margin-top: 1em;
+}
+
+
+.rendered_html pre,
+
+
+
+.rendered_html tr,
+.rendered_html th,
+
+.rendered_html td,
+
+
+.rendered_html * + table {
+  margin-top: 1em;
+}
+
+.rendered_html * + p {
+  margin-top: 1em;
+}
+
+.rendered_html * + img {
+  margin-top: 1em;
+}
+.rendered_html img,
+
+.rendered_html img.unconfined,
+
+div.text_cell {
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: horizontal;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+@media (max-width: 540px) {
+  div.text_cell > div.prompt {
+    display: none;
+  }
+}
+div.text_cell_render {
+  /*font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;*/
+  outline: none;
+  resize: none;
+  width: inherit;
+  border-style: none;
+  padding: 0.5em 0.5em 0.5em 0.4em;
+  color: #000;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+a.anchor-link:link {
+  text-decoration: none;
+  padding: 0px 20px;
+  visibility: hidden;
+}
+h1:hover .anchor-link,
+h2:hover .anchor-link,
+h3:hover .anchor-link,
+h4:hover .anchor-link,
+h5:hover .anchor-link,
+h6:hover .anchor-link {
+  visibility: visible;
+}
+.text_cell.rendered .input_area {
+  display: none;
+}
+.text_cell.rendered 
+.text_cell.unrendered .text_cell_render {
+  display: none;
+}
+.cm-header-1,
+.cm-header-2,
+.cm-header-3,
+.cm-header-4,
+.cm-header-5,
+.cm-header-6 {
+  font-weight: bold;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.cm-header-1 {
+  font-size: 185.7%;
+}
+.cm-header-2 {
+  font-size: 157.1%;
+}
+.cm-header-3 {
+  font-size: 128.6%;
+}
+.cm-header-4 {
+  font-size: 110%;
+}
+.cm-header-5 {
+  font-size: 100%;
+  font-style: italic;
+}
+.cm-header-6 {
+  font-size: 100%;
+  font-style: italic;
+}
+</style>
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mb { color: #666666 } /* Literal.Number.Bin */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sa { color: #BA2121 } /* Literal.String.Affix */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .dl { color: #BA2121 } /* Literal.String.Delimiter */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #0000FF } /* Name.Function.Magic */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .vm { color: #19177C } /* Name.Variable.Magic */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+<style type="text/css">
+/* Temporary definitions which will become obsolete with Notebook release 5.0 */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-bold { font-weight: bold; }
+</style>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This notebook performs basic preprocessing for my scheduling analysis. The basic idea is to use Elo ratings for WTA players to select tournament schedules that maximize the probability of a player meeting their ranking goals.</p>
+<p>The WTA awards ranking points to players based on their placement at tournaments. Different tournaments have different levels of prestige, and awarded ranking points (mostly) reflect those differences. Players should generally seek out tournaments whose field strength (quality of players in attendance) is weaker than the points available.</p>
+<p>To evaluate different schedules, I need to make predictions for individual matches (based on player Elo ratings) and know the value of winning each match (based on tournament level, draw size, and round). With those two pieces of information, I can determine the value of attending each tournament and combine them to create a favorable tournament schedule based on any player's Elo rating and goals.</p>
+<h1 id="Part-1:-Player-Elo-Ratings">Part 1: Player Elo Ratings<a class="anchor-link" href="#Part-1:-Player-Elo-Ratings">&#182;</a></h1><p>I have multiple years of WTA (and ITF) <a href="https://github.com/JeffSackmann/tennis_wta">match data</a> courtesy of Jeff Sackmann, creator of <a href="http://www.tennisabstract.com/">Tennis Abstract</a>, <a href="http://www.tennisabstract.com/blog/2013/11/26/the-match-charting-project/">the Match Charting Project</a>, and the blog <a href="http://www.tennisabstract.com/blog/">Heavy Topspin</a>. This data is licensed under a <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</p>
+<p>Elo ratings are based on match results, so I need to create a single dataframe of all the matches available to me.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># create a single dataframe of all WTA (and ITF) matches</span>
+<span class="c1"># there are multiple files per year, and multiple years</span>
+<span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/Users/admin/Documents/Personal_Data_Project/2_Tennis/0_Raw_Input_Data/3_match_results/tennis_wta_master/&#39;</span>
+<span class="n">all_matches</span> <span class="o">=</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s2">&quot;wta_matches_*.csv&quot;</span><span class="p">))</span>
+
+<span class="n">wta_matches</span> <span class="o">=</span> <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;latin-1&#39;</span><span class="p">,</span> <span class="n">low_memory</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">all_matches</span><span class="p">]</span>
+<span class="n">wta_matches</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">wta_matches</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;There are &#39;</span>
+      <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">wta_matches</span><span class="p">))</span>
+      <span class="o">+</span> <span class="s1">&#39; matches present, with a total of &#39;</span>
+      <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">wta_matches</span><span class="o">.</span><span class="n">columns</span><span class="p">))</span>
+      <span class="o">+</span> <span class="s1">&#39; columns. The earliest date is &#39;</span>
+      <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">wta_matches</span><span class="p">[</span><span class="s1">&#39;tourney_date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+      <span class="o">+</span> <span class="s1">&#39; and the last date is &#39;</span>
+      <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">wta_matches</span><span class="p">[</span><span class="s1">&#39;tourney_date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+      <span class="o">+</span> <span class="s1">&#39;.&#39;</span>
+     <span class="p">)</span>
+<span class="n">wta_matches</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>There are 440524 matches present, with a total of 49 columns. The earliest date is 19680119 and the last date is 20181217.
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[2]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Index([&#39;tourney_id&#39;, &#39;tourney_name&#39;, &#39;surface&#39;, &#39;draw_size&#39;, &#39;tourney_level&#39;,
+       &#39;tourney_date&#39;, &#39;match_num&#39;, &#39;winner_id&#39;, &#39;winner_seed&#39;, &#39;winner_entry&#39;,
+       &#39;winner_name&#39;, &#39;winner_hand&#39;, &#39;winner_ht&#39;, &#39;winner_ioc&#39;, &#39;winner_age&#39;,
+       &#39;winner_rank&#39;, &#39;winner_rank_points&#39;, &#39;loser_id&#39;, &#39;loser_seed&#39;,
+       &#39;loser_entry&#39;, &#39;loser_name&#39;, &#39;loser_hand&#39;, &#39;loser_ht&#39;, &#39;loser_ioc&#39;,
+       &#39;loser_age&#39;, &#39;loser_rank&#39;, &#39;loser_rank_points&#39;, &#39;score&#39;, &#39;best_of&#39;,
+       &#39;round&#39;, &#39;minutes&#39;, &#39;w_ace&#39;, &#39;w_df&#39;, &#39;w_svpt&#39;, &#39;w_1stIn&#39;, &#39;w_1stWon&#39;,
+       &#39;w_2ndWon&#39;, &#39;w_SvGms&#39;, &#39;w_bpSaved&#39;, &#39;w_bpFaced&#39;, &#39;l_ace&#39;, &#39;l_df&#39;,
+       &#39;l_svpt&#39;, &#39;l_1stIn&#39;, &#39;l_1stWon&#39;, &#39;l_2ndWon&#39;, &#39;l_SvGms&#39;, &#39;l_bpSaved&#39;,
+       &#39;l_bpFaced&#39;],
+      dtype=&#39;object&#39;)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>I'm not going to use many of the columns, especially the ones for match statistics (such as break points saved) and player details. I'm going to drop these columns, sort the dataframe, and reset the index.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">wta_matches</span> <span class="o">=</span> <span class="p">(</span><span class="n">wta_matches</span>
+               <span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s1">&#39;tourney_id&#39;</span><span class="p">,</span> <span class="s1">&#39;tourney_name&#39;</span><span class="p">,</span> <span class="s1">&#39;surface&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;draw_size&#39;</span><span class="p">,</span> <span class="s1">&#39;tourney_level&#39;</span><span class="p">,</span> <span class="s1">&#39;tourney_date&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;match_num&#39;</span><span class="p">,</span> <span class="s1">&#39;winner_id&#39;</span><span class="p">,</span> <span class="s1">&#39;winner_name&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;loser_id&#39;</span><span class="p">,</span> <span class="s1">&#39;loser_name&#39;</span><span class="p">,</span> <span class="s1">&#39;score&#39;</span><span class="p">,</span>
+                        <span class="s1">&#39;round&#39;</span><span class="p">]]</span>
+               <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;tourney_date&#39;</span><span class="p">,</span> <span class="s1">&#39;tourney_id&#39;</span><span class="p">,</span> <span class="s1">&#39;match_num&#39;</span><span class="p">,</span> <span class="s1">&#39;round&#39;</span><span class="p">])</span>
+               <span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">wta_matches</span><span class="p">[(</span><span class="n">wta_matches</span><span class="o">.</span><span class="n">score</span><span class="o">.</span><span class="n">isnull</span><span class="p">())</span>
+                                 <span class="o">&amp;</span> <span class="p">(</span><span class="n">wta_matches</span><span class="p">[</span><span class="s1">&#39;round&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Q3&#39;</span><span class="p">)</span>
+                                <span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+               <span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+               <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;round&#39;</span> <span class="p">:</span> <span class="s1">&#39;tourney_round&#39;</span><span class="p">}))</span>
+<span class="n">wta_matches</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[3]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tourney_id</th>
+      <th>tourney_name</th>
+      <th>surface</th>
+      <th>draw_size</th>
+      <th>tourney_level</th>
+      <th>tourney_date</th>
+      <th>match_num</th>
+      <th>winner_id</th>
+      <th>winner_name</th>
+      <th>loser_id</th>
+      <th>loser_name</th>
+      <th>score</th>
+      <th>tourney_round</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1968-W-SL-AUS-01A-1968</td>
+      <td>Australian Championships</td>
+      <td>Grass</td>
+      <td>62</td>
+      <td>G</td>
+      <td>19680119</td>
+      <td>1</td>
+      <td>200130</td>
+      <td>Dorothy Whitely</td>
+      <td>200131</td>
+      <td>Judith Gohn</td>
+      <td>6-2 6-4</td>
+      <td>R64</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1968-W-SL-AUS-01A-1968</td>
+      <td>Australian Championships</td>
+      <td>Grass</td>
+      <td>62</td>
+      <td>G</td>
+      <td>19680119</td>
+      <td>2</td>
+      <td>200133</td>
+      <td>Eva De Jong</td>
+      <td>200132</td>
+      <td>Kay Williams</td>
+      <td>6-3 6-2</td>
+      <td>R64</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1968-W-SL-AUS-01A-1968</td>
+      <td>Australian Championships</td>
+      <td>Grass</td>
+      <td>62</td>
+      <td>G</td>
+      <td>19680119</td>
+      <td>3</td>
+      <td>200134</td>
+      <td>Kerry Ballard</td>
+      <td>200135</td>
+      <td>Lorraine Robinson</td>
+      <td>W/O</td>
+      <td>R64</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>1968-W-SL-AUS-01A-1968</td>
+      <td>Australian Championships</td>
+      <td>Grass</td>
+      <td>62</td>
+      <td>G</td>
+      <td>19680119</td>
+      <td>4</td>
+      <td>200137</td>
+      <td>L Griffiths</td>
+      <td>200136</td>
+      <td>Valerie Caulley</td>
+      <td>6-3 6-4</td>
+      <td>R64</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1968-W-SL-AUS-01A-1968</td>
+      <td>Australian Championships</td>
+      <td>Grass</td>
+      <td>62</td>
+      <td>G</td>
+      <td>19680119</td>
+      <td>5</td>
+      <td>200139</td>
+      <td>Lita Sugiarto</td>
+      <td>200138</td>
+      <td>Sandra Hole</td>
+      <td>6-0 6-1</td>
+      <td>R64</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The match data also comes with a companion dataset of players. This dataset requires new names for the columns and a new index. I'm also going to initialize each player with an Elo of 1500 and 0 matches played.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">wta_players</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;wta_players.csv&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;latin-1&#39;</span><span class="p">)</span>
+<span class="n">wta_players</span> <span class="o">=</span> <span class="n">wta_players</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="n">wta_players</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">:</span> <span class="s1">&#39;player_id&#39;</span><span class="p">,</span>
+                                          <span class="n">wta_players</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">:</span> <span class="s1">&#39;first_name&#39;</span><span class="p">,</span>
+                                          <span class="n">wta_players</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">:</span> <span class="s1">&#39;last_name&#39;</span><span class="p">,</span>
+                                          <span class="n">wta_players</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="p">:</span> <span class="s1">&#39;handedness&#39;</span><span class="p">,</span>
+                                          <span class="n">wta_players</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="p">:</span> <span class="s1">&#39;birth_date&#39;</span><span class="p">,</span>
+                                          <span class="n">wta_players</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="p">:</span> <span class="s1">&#39;ioc&#39;</span><span class="p">})</span>
+<span class="n">wta_players</span> <span class="o">=</span> <span class="n">wta_players</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;player_id&#39;</span><span class="p">)</span>
+<span class="n">wta_players</span><span class="p">[</span><span class="s1">&#39;current_elo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1500</span>
+<span class="n">wta_players</span><span class="p">[</span><span class="s1">&#39;matches_played&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">wta_players</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[4]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>first_name</th>
+      <th>last_name</th>
+      <th>handedness</th>
+      <th>birth_date</th>
+      <th>ioc</th>
+      <th>current_elo</th>
+      <th>matches_played</th>
+    </tr>
+    <tr>
+      <th>player_id</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>200001</th>
+      <td>Martina</td>
+      <td>Hingis</td>
+      <td>R</td>
+      <td>19800930.0</td>
+      <td>SUI</td>
+      <td>1500</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>200002</th>
+      <td>Mirjana</td>
+      <td>Lucic</td>
+      <td>R</td>
+      <td>19820309.0</td>
+      <td>CRO</td>
+      <td>1500</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>200003</th>
+      <td>Justine</td>
+      <td>Henin</td>
+      <td>R</td>
+      <td>19820601.0</td>
+      <td>BEL</td>
+      <td>1500</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>200004</th>
+      <td>Kerry Anne</td>
+      <td>Guse</td>
+      <td>R</td>
+      <td>19721204.0</td>
+      <td>AUS</td>
+      <td>1500</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>200005</th>
+      <td>Jolene</td>
+      <td>Watanabe Giltz</td>
+      <td>R</td>
+      <td>19680831.0</td>
+      <td>USA</td>
+      <td>1500</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The Elo rating system is fairly simple. A prediction for the probability of each player winning the match is determined based on the difference in their Elo ratings. After the match has concluded, each player's rating is updated based on the predicted probabilities and the actual outcome. At the most basic level, you can think of Elo ratings as following these rules:</p>
+<ol>
+<li>Winning a match always increases your rating, and losing a match always decreases your rating.</li>
+<li>"Surprising" results change ratings more than "expected" results. Winning a match where you are the heavy favorite results in a smaller rating increase than winning a match where you were a heavy underdog.</li>
+<li>These ratings propagate through time. All of your prior match results adjusted your rating, which affects your probability of winning your next match.</li>
+</ol>
+<p>Therefore, implementing the Elo rating system with a dataset of matches requires three functions:</p>
+<ol>
+<li>A function to return the probability of a player winning a match.</li>
+<li>A function to update the Elo ratings for players in a match based on the result.</li>
+<li>A function to process the dataset of matches in chronological order and track player Elos.</li>
+</ol>
+<p>I use the <a href="https://fivethirtyeight.com/features/serena-williams-and-the-difference-between-all-time-great-and-greatest-of-all-time/">same Elo update function</a> used by FiveThirtyEight's tennis predictions.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_elo_prob</span><span class="p">(</span><span class="n">p1_elo</span><span class="p">,</span> <span class="n">p2_elo</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return probability of player 1 winning</span>
+<span class="sd">    given elo for both players.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">((</span><span class="n">p2_elo</span> <span class="o">-</span> <span class="n">p1_elo</span><span class="p">)</span><span class="o">/</span><span class="mi">400</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">elo_update</span><span class="p">(</span>
+    <span class="n">winner_elo</span><span class="p">,</span> <span class="n">winner_matches_played</span><span class="p">,</span>
+    <span class="n">loser_elo</span><span class="p">,</span> <span class="n">loser_matches_played</span><span class="p">,</span>
+    <span class="n">k</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span> <span class="n">offset</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Update Elos for winner and loser of a single match.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+        
+    <span class="n">winner_prob</span> <span class="o">=</span> <span class="n">get_elo_prob</span><span class="p">(</span><span class="n">winner_elo</span><span class="p">,</span> <span class="n">loser_elo</span><span class="p">)</span>
+    <span class="n">loser_prob</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">winner_prob</span>
+    
+    <span class="n">winner_elo</span> <span class="o">=</span> <span class="n">winner_elo</span> <span class="o">+</span> <span class="p">(</span><span class="n">k</span> <span class="o">/</span> <span class="p">(</span><span class="n">winner_matches_played</span> <span class="o">+</span> <span class="n">offset</span><span class="p">)</span><span class="o">**</span><span class="n">shape</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">winner_prob</span><span class="p">)</span>
+    <span class="n">loser_elo</span> <span class="o">=</span> <span class="n">loser_elo</span> <span class="o">+</span> <span class="p">(</span><span class="n">k</span> <span class="o">/</span> <span class="p">(</span><span class="n">loser_matches_played</span> <span class="o">+</span> <span class="n">offset</span><span class="p">)</span><span class="o">**</span><span class="n">shape</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">0</span> <span class="o">-</span> <span class="n">loser_prob</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">winner_elo</span><span class="p">,</span> <span class="n">loser_elo</span>
+
+<span class="k">def</span> <span class="nf">run_tennis_history</span><span class="p">(</span><span class="n">matches</span><span class="p">,</span> <span class="n">players</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Processes dataframe of matches one at a time,</span>
+<span class="sd">    adding Elo ratings before and after the match</span>
+<span class="sd">    and updating a separate dataframe of player elos</span>
+<span class="sd">    over time.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">player_elos</span> <span class="o">=</span> <span class="p">(</span><span class="n">players</span>
+                   <span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s1">&#39;current_elo&#39;</span><span class="p">,</span> <span class="s1">&#39;matches_played&#39;</span><span class="p">]]</span>
+                   <span class="o">.</span><span class="n">to_dict</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
+                  <span class="p">)</span>
+    
+    <span class="n">player_elo_matches</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    
+    <span class="n">winner_prior_elos</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">loser_prior_elos</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="n">winner_elos</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">loser_elos</span> <span class="o">=</span> <span class="p">[]</span>
+        
+    <span class="k">for</span> <span class="n">match</span> <span class="ow">in</span> <span class="n">matches</span><span class="o">.</span><span class="n">itertuples</span><span class="p">():</span>
+        
+        <span class="n">winner_id</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">winner_id</span>
+        <span class="n">loser_id</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">loser_id</span>
+                
+        <span class="c1"># look up current elos for winner and loser</span>
+        <span class="n">winner_elo</span> <span class="o">=</span> <span class="n">player_elos</span><span class="p">[</span><span class="n">winner_id</span><span class="p">][</span><span class="s1">&#39;current_elo&#39;</span><span class="p">]</span>
+        <span class="n">loser_elo</span> <span class="o">=</span> <span class="n">player_elos</span><span class="p">[</span><span class="n">loser_id</span><span class="p">][</span><span class="s1">&#39;current_elo&#39;</span><span class="p">]</span>
+        
+        <span class="n">winner_prior_elos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">winner_elo</span><span class="p">)</span>
+        <span class="n">loser_prior_elos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loser_elo</span><span class="p">)</span>
+        
+        <span class="n">winner_matches_played</span> <span class="o">=</span> <span class="n">player_elos</span><span class="p">[</span><span class="n">winner_id</span><span class="p">][</span><span class="s1">&#39;matches_played&#39;</span><span class="p">]</span>
+        <span class="n">loser_matches_played</span> <span class="o">=</span> <span class="n">player_elos</span><span class="p">[</span><span class="n">loser_id</span><span class="p">][</span><span class="s1">&#39;matches_played&#39;</span><span class="p">]</span>
+                
+        <span class="c1"># update elos in players dataframe</span>
+        <span class="n">winner_elo</span><span class="p">,</span> <span class="n">loser_elo</span> <span class="o">=</span> <span class="n">elo_update</span><span class="p">(</span>
+                                    <span class="n">winner_elo</span><span class="p">,</span>
+                                    <span class="n">winner_matches_played</span><span class="p">,</span>
+                                    <span class="n">loser_elo</span><span class="p">,</span>
+                                    <span class="n">loser_matches_played</span>
+                                    <span class="p">)</span>
+                
+        <span class="n">player_elos</span><span class="p">[</span><span class="n">winner_id</span><span class="p">][</span><span class="s1">&#39;current_elo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">winner_elo</span>
+        <span class="n">player_elos</span><span class="p">[</span><span class="n">loser_id</span><span class="p">][</span><span class="s1">&#39;current_elo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loser_elo</span>
+        
+        <span class="n">player_elos</span><span class="p">[</span><span class="n">winner_id</span><span class="p">][</span><span class="s1">&#39;matches_played&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">player_elos</span><span class="p">[</span><span class="n">winner_id</span><span class="p">][</span><span class="s1">&#39;matches_played&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">player_elos</span><span class="p">[</span><span class="n">loser_id</span><span class="p">][</span><span class="s1">&#39;matches_played&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">player_elos</span><span class="p">[</span><span class="n">loser_id</span><span class="p">][</span><span class="s1">&#39;matches_played&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+        
+        <span class="c1"># add updated elos to elo lists, to be added to matches dataframe later</span>
+        <span class="n">winner_elos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">winner_elo</span><span class="p">)</span>
+        <span class="n">loser_elos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loser_elo</span><span class="p">)</span>
+        
+        <span class="c1">#add to dict of player elos over time</span>
+        <span class="n">player_elo_matches</span><span class="p">[(</span><span class="n">winner_id</span><span class="p">,</span> <span class="n">player_elos</span><span class="p">[</span><span class="n">winner_id</span><span class="p">][</span><span class="s1">&#39;matches_played&#39;</span><span class="p">])]</span> \
+            <span class="o">=</span> <span class="nb">dict</span><span class="p">({</span><span class="s1">&#39;tourney_date&#39;</span> <span class="p">:</span> <span class="n">match</span><span class="o">.</span><span class="n">tourney_date</span><span class="p">,</span> <span class="s1">&#39;elo&#39;</span> <span class="p">:</span> <span class="n">winner_elo</span><span class="p">,</span> <span class="s1">&#39;tourney_name&#39;</span> <span class="p">:</span> <span class="n">match</span><span class="o">.</span><span class="n">tourney_name</span><span class="p">})</span>
+            
+        <span class="n">player_elo_matches</span><span class="p">[(</span><span class="n">loser_id</span><span class="p">,</span> <span class="n">player_elos</span><span class="p">[</span><span class="n">loser_id</span><span class="p">][</span><span class="s1">&#39;matches_played&#39;</span><span class="p">])]</span> \
+            <span class="o">=</span> <span class="nb">dict</span><span class="p">({</span><span class="s1">&#39;tourney_date&#39;</span> <span class="p">:</span> <span class="n">match</span><span class="o">.</span><span class="n">tourney_date</span><span class="p">,</span> <span class="s1">&#39;elo&#39;</span> <span class="p">:</span> <span class="n">loser_elo</span><span class="p">,</span> <span class="s1">&#39;tourney_name&#39;</span> <span class="p">:</span> <span class="n">match</span><span class="o">.</span><span class="n">tourney_name</span><span class="p">})</span>
+
+    <span class="c1"># add winner and loser elos to matches dataframe</span>
+    <span class="n">matches</span><span class="p">[</span><span class="s1">&#39;winner_prior_elo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">winner_prior_elos</span>
+    <span class="n">matches</span><span class="p">[</span><span class="s1">&#39;loser_prior_elo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loser_prior_elos</span>
+    <span class="n">matches</span><span class="p">[</span><span class="s1">&#39;winner_elo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">winner_elos</span>
+    <span class="n">matches</span><span class="p">[</span><span class="s1">&#39;loser_elo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loser_elos</span>
+        
+    <span class="n">players_out</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">player_elos</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
+    <span class="n">players_out</span> <span class="o">=</span> <span class="n">players_out</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">players</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span>
+                                               <span class="p">[</span><span class="n">column</span> <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">players</span><span class="o">.</span><span class="n">columns</span>
+                                                <span class="k">if</span> <span class="n">column</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;current_elo&#39;</span><span class="p">,</span> <span class="s1">&#39;matches_played&#39;</span><span class="p">]]</span>
+                                              <span class="p">])</span>
+    
+    <span class="n">player_elo_matches</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">player_elo_matches</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
+    <span class="n">player_elo_matches</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;player_id&#39;</span><span class="p">,</span> <span class="s1">&#39;matches_played&#39;</span><span class="p">]</span>
+    
+    <span class="k">return</span> <span class="n">matches</span><span class="p">,</span> <span class="n">players_out</span><span class="p">,</span> <span class="n">player_elo_matches</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">wta_matches</span><span class="p">,</span> <span class="n">wta_players</span><span class="p">,</span> <span class="n">player_elo_matches</span> <span class="o">=</span> <span class="n">run_tennis_history</span><span class="p">(</span><span class="n">wta_matches</span><span class="p">,</span> <span class="n">wta_players</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's take a look at how Elo ratings change. Here's five matches from Auckland (an International level tournmaent in Australia) in 2018.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">wta_matches</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">wta_matches</span><span class="o">.</span><span class="n">tourney_date</span> <span class="o">&gt;</span> <span class="mi">20180000</span><span class="p">,</span>
+                <span class="p">[</span><span class="s1">&#39;tourney_name&#39;</span><span class="p">,</span> <span class="s1">&#39;winner_prior_elo&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;loser_prior_elo&#39;</span><span class="p">,</span> <span class="s1">&#39;winner_elo&#39;</span><span class="p">,</span> <span class="s1">&#39;loser_elo&#39;</span><span class="p">]</span>
+               <span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[7]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>tourney_name</th>
+      <th>winner_prior_elo</th>
+      <th>loser_prior_elo</th>
+      <th>winner_elo</th>
+      <th>loser_elo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>419867</th>
+      <td>Auckland</td>
+      <td>1975.983402</td>
+      <td>1891.062594</td>
+      <td>1985.514468</td>
+      <td>1881.356045</td>
+    </tr>
+    <tr>
+      <th>419868</th>
+      <td>Auckland</td>
+      <td>2078.363392</td>
+      <td>1414.730465</td>
+      <td>2078.782456</td>
+      <td>1413.451325</td>
+    </tr>
+    <tr>
+      <th>419869</th>
+      <td>Auckland</td>
+      <td>2111.025080</td>
+      <td>1990.651090</td>
+      <td>2120.592237</td>
+      <td>1980.833738</td>
+    </tr>
+    <tr>
+      <th>419870</th>
+      <td>Auckland</td>
+      <td>2105.838497</td>
+      <td>2042.758726</td>
+      <td>2113.840348</td>
+      <td>2031.190812</td>
+    </tr>
+    <tr>
+      <th>419871</th>
+      <td>Auckland</td>
+      <td>2131.485084</td>
+      <td>2078.027988</td>
+      <td>2142.147706</td>
+      <td>2064.698909</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can see that the Elo for the winner always increases, the Elo for the loser always decreases, and the magnitude of the changes are (partially) based on the difference in the two Elo ratings going into the match.</p>
+<p>Next, let's look at the Elo ratings after Simona Halep's first ten matches in the dataset.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">player_elo_matches</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">player_elo_matches</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mi">201594</span><span class="p">]</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[8]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>tourney_date</th>
+      <th>elo</th>
+      <th>tourney_name</th>
+    </tr>
+    <tr>
+      <th>player_id</th>
+      <th>matches_played</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="10" valign="top">201594</th>
+      <th>1</th>
+      <td>20060626</td>
+      <td>1572.327235</td>
+      <td>Galati 10K</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>20060626</td>
+      <td>1515.752628</td>
+      <td>Galati 10K</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>20060904</td>
+      <td>1561.009895</td>
+      <td>Bucharest 6 10K</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>20060904</td>
+      <td>1597.629390</td>
+      <td>Bucharest 6 10K</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>20060904</td>
+      <td>1559.034818</td>
+      <td>Bucharest 6 10K</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>20070430</td>
+      <td>1614.154887</td>
+      <td>Bucharest 10K</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>20070430</td>
+      <td>1670.698842</td>
+      <td>Bucharest 10K</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>20070430</td>
+      <td>1692.412442</td>
+      <td>Bucharest 10K</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>20070430</td>
+      <td>1752.207906</td>
+      <td>Bucharest 10K</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>20070430</td>
+      <td>1793.845748</td>
+      <td>Bucharest 10K</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can see that her Elo was steadily rising, though it did fall in her last match at the Galati 10K and the Bucharest 6 10K (because she lost those matches). A rise in a player's Elo rating can be thought of in two ways:</p>
+<ol>
+<li>The Elo rating is learning about the player's true strength. (All players start at 1500).</li>
+<li>The player's true strength is changing.</li>
+</ol>
+<p>In Halep's case, both were likely factors. She was better than her rating suggested, and she was also improving.</p>
+<h1 id="Part-2:-Points-by-Round-and-Event">Part 2: Points by Round and Event<a class="anchor-link" href="#Part-2:-Points-by-Round-and-Event">&#182;</a></h1><p>The points awarded to a player at a single tournament is based on three factors:</p>
+<ol>
+<li>The tournament classification (think prestige). Is it a Grand Slam, a Premier Mandatory, a Challenger, etc.?</li>
+<li>The size of the draw (how many players are competing). Even tournaments of the same level have slightly different draws.</li>
+<li>The player's placement. Did she win, lose in the finals, lose in quarterfinals, etc.?</li>
+</ol>
+<p>Unfortunately for me, the tournament classification and draw size for individual events fluctuates over the years. While this exercise could be performed for any year of the WTA, I will only assign ranking points for 2018 to make data cleaning a bit simpler.</p>
+<p>I assign ranking points by tournament name in most cases because the tournament level and draw size columns are not accurate or granular enough. However, I assign ranking points for the less prestigious tournaments by the last word in their name (e.g., 100K) because there are so many of them.[1]</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rr_rounds</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="s1">&#39;SF&#39;</span><span class="p">,</span> <span class="s1">&#39;RR&#39;</span><span class="p">]</span>
+
+<span class="n">round_robin_winner_points</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">({</span><span class="s1">&#39;Singapore&#39;</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">rr_rounds</span><span class="p">,</span> <span class="p">[</span><span class="mi">750</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">250</span><span class="p">])),</span>
+                                  <span class="s1">&#39;Zhuhai&#39;</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">rr_rounds</span><span class="p">,</span> <span class="p">[</span><span class="mi">460</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">120</span><span class="p">]))</span>
+                                 <span class="p">})</span>
+
+<span class="n">round_robin_loser_points</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">({</span><span class="s1">&#39;Singapore&#39;</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">rr_rounds</span><span class="p">,</span> <span class="p">[</span><span class="mi">300</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">125</span><span class="p">])),</span>
+                                 <span class="s1">&#39;Zhuhai&#39;</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">rr_rounds</span><span class="p">,</span> <span class="p">[</span><span class="mi">200</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">]))</span>
+                                <span class="p">})</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">rounds</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;W&#39;</span><span class="p">,</span><span class="s1">&#39;F&#39;</span><span class="p">,</span><span class="s1">&#39;SF&#39;</span><span class="p">,</span><span class="s1">&#39;QF&#39;</span><span class="p">,</span><span class="s1">&#39;R16&#39;</span><span class="p">,</span><span class="s1">&#39;R32&#39;</span><span class="p">,</span><span class="s1">&#39;R64&#39;</span><span class="p">,</span><span class="s1">&#39;R128&#39;</span><span class="p">,</span><span class="s1">&#39;QLFR&#39;</span><span class="p">,</span><span class="s1">&#39;Q3&#39;</span><span class="p">,</span><span class="s1">&#39;Q2&#39;</span><span class="p">,</span><span class="s1">&#39;Q1&#39;</span><span class="p">]</span>
+<span class="n">rounds_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">rounds</span><span class="p">,</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">rounds</span><span class="p">)))))</span>
+
+<span class="n">slams</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Australian Open&#39;</span><span class="p">,</span> <span class="s1">&#39;Roland Garros&#39;</span><span class="p">,</span> <span class="s1">&#39;Wimbledon&#39;</span><span class="p">,</span> <span class="s1">&#39;US Open&#39;</span><span class="p">]</span>
+
+<span class="n">slam_points</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2000</span><span class="p">,</span><span class="mi">1300</span><span class="p">,</span><span class="mi">780</span><span class="p">,</span><span class="mi">430</span><span class="p">,</span><span class="mi">240</span><span class="p">,</span><span class="mi">130</span><span class="p">,</span><span class="mi">70</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">40</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="n">slam_points</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+                <span class="p">{</span><span class="n">slam</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">rounds</span><span class="p">,</span> <span class="n">slam_points</span><span class="p">))</span>
+                 <span class="k">for</span> <span class="n">slam</span> <span class="ow">in</span> <span class="n">slams</span><span class="p">})</span>
+<span class="n">slam_points</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[10]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>{&#39;Australian Open&#39;: {&#39;W&#39;: 2000,
+  &#39;F&#39;: 1300,
+  &#39;SF&#39;: 780,
+  &#39;QF&#39;: 430,
+  &#39;R16&#39;: 240,
+  &#39;R32&#39;: 130,
+  &#39;R64&#39;: 70,
+  &#39;R128&#39;: 10,
+  &#39;QLFR&#39;: 40,
+  &#39;Q3&#39;: 30,
+  &#39;Q2&#39;: 20,
+  &#39;Q1&#39;: 2},
+ &#39;Roland Garros&#39;: {&#39;W&#39;: 2000,
+  &#39;F&#39;: 1300,
+  &#39;SF&#39;: 780,
+  &#39;QF&#39;: 430,
+  &#39;R16&#39;: 240,
+  &#39;R32&#39;: 130,
+  &#39;R64&#39;: 70,
+  &#39;R128&#39;: 10,
+  &#39;QLFR&#39;: 40,
+  &#39;Q3&#39;: 30,
+  &#39;Q2&#39;: 20,
+  &#39;Q1&#39;: 2},
+ &#39;Wimbledon&#39;: {&#39;W&#39;: 2000,
+  &#39;F&#39;: 1300,
+  &#39;SF&#39;: 780,
+  &#39;QF&#39;: 430,
+  &#39;R16&#39;: 240,
+  &#39;R32&#39;: 130,
+  &#39;R64&#39;: 70,
+  &#39;R128&#39;: 10,
+  &#39;QLFR&#39;: 40,
+  &#39;Q3&#39;: 30,
+  &#39;Q2&#39;: 20,
+  &#39;Q1&#39;: 2},
+ &#39;US Open&#39;: {&#39;W&#39;: 2000,
+  &#39;F&#39;: 1300,
+  &#39;SF&#39;: 780,
+  &#39;QF&#39;: 430,
+  &#39;R16&#39;: 240,
+  &#39;R32&#39;: 130,
+  &#39;R64&#39;: 70,
+  &#39;R128&#39;: 10,
+  &#39;QLFR&#39;: 40,
+  &#39;Q3&#39;: 30,
+  &#39;Q2&#39;: 20,
+  &#39;Q1&#39;: 2}}</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">premier_mandatories_96</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Indian Wells&#39;</span><span class="p">,</span> <span class="s1">&#39;Miami&#39;</span><span class="p">]</span>
+<span class="n">premier_mandatories_64</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Beijing&#39;</span><span class="p">,</span> <span class="s1">&#39;Madrid&#39;</span><span class="p">]</span>
+<span class="n">premier_5s</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Cincinnati&#39;</span><span class="p">,</span> <span class="s1">&#39;Rome&#39;</span><span class="p">,</span> <span class="s1">&#39;Montreal&#39;</span><span class="p">,</span> <span class="s1">&#39;Wuhan&#39;</span><span class="p">,</span> <span class="s1">&#39;Doha&#39;</span><span class="p">]</span>
+<span class="n">premier_56</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Charleston&#39;</span><span class="p">,</span> <span class="s1">&#39;Tokyo&#39;</span><span class="p">]</span>
+<span class="n">premier_32</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Brisbane&#39;</span><span class="p">,</span> <span class="s1">&#39;Sydney&#39;</span><span class="p">,</span> <span class="s1">&#39;St. Petersburg&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;Dubai&#39;</span><span class="p">,</span> <span class="s1">&#39;Stuttgart&#39;</span><span class="p">,</span> <span class="s1">&#39;Birmingham&#39;</span><span class="p">,</span> <span class="s1">&#39;Eastbourne&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;San Jose&#39;</span><span class="p">,</span> <span class="s1">&#39;Moscow&#39;</span><span class="p">,</span> <span class="s1">&#39;New Haven&#39;</span><span class="p">]</span>
+<span class="n">internationals_3rq</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Auckland&#39;</span><span class="p">,</span> <span class="s1">&#39;Monterrey&#39;</span><span class="p">,</span> <span class="s1">&#39;Lugano&#39;</span><span class="p">,</span> <span class="s1">&#39;Bogota&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Istanbul&#39;</span><span class="p">,</span> <span class="s1">&#39;Morocco&#39;</span><span class="p">,</span> <span class="s1">&#39;Prague&#39;</span><span class="p">,</span> <span class="s1">&#39;Strasbourg&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Nurnberg&#39;</span><span class="p">,</span> <span class="s1">&#39;Nottingham&#39;</span><span class="p">,</span> <span class="s1">&#39;Mallorca&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Bucharest&#39;</span><span class="p">,</span> <span class="s1">&#39;Gstaad&#39;</span><span class="p">,</span> <span class="s1">&#39;Seoul&#39;</span><span class="p">,</span> <span class="s1">&#39;Tashkent&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Tianjin&#39;</span><span class="p">,</span> <span class="s1">&#39;Linz&#39;</span><span class="p">,</span> <span class="s1">&#39;Luxembourg&#39;</span><span class="p">,</span> <span class="s1">&#39;Hiroshima&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Moscow Int&#39;</span><span class="p">]</span>
+<span class="n">internationals_2rq</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Shenzhen&#39;</span><span class="p">,</span> <span class="s1">&#39;Hobart&#39;</span><span class="p">,</span> <span class="s1">&#39;Hua Hin&#39;</span><span class="p">,</span> <span class="s1">&#39;Budapest&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Acapulco&#39;</span><span class="p">,</span> <span class="s1">&#39;s-Hertogenbosch&#39;</span><span class="p">,</span> <span class="s1">&#39;Washington&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Quebec City&#39;</span><span class="p">,</span> <span class="s1">&#39;Nanchang&#39;</span><span class="p">,</span> <span class="s1">&#39;Guangzhou&#39;</span><span class="p">,</span>
+                      <span class="s1">&#39;Hong Kong&#39;</span><span class="p">,</span> <span class="s1">&#39;Rabat&#39;</span><span class="p">]</span>
+<span class="n">challengers</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Newport Beach&#39;</span><span class="p">,</span> <span class="s1">&#39;Indian Wells 125K&#39;</span><span class="p">,</span> <span class="s1">&#39;Taipei&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;Chicago&#39;</span><span class="p">,</span> <span class="s1">&#39;Houston&#39;</span><span class="p">,</span> <span class="s1">&#39;Limoges&#39;</span><span class="p">,</span> <span class="s1">&#39;Mumbai&#39;</span><span class="p">,</span>
+               <span class="s1">&#39;Anning&#39;</span><span class="p">,</span> <span class="s1">&#39;Zhengzhou&#39;</span><span class="p">,</span> <span class="s1">&#39;Bol&#39;</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">wta_points_2018</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">slam_points</span><span class="p">,</span>
+                   <span class="o">**</span><span class="nb">dict</span><span class="p">({</span><span class="n">tournament</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">rounds</span><span class="p">,</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span><span class="mi">650</span><span class="p">,</span><span class="mi">390</span><span class="p">,</span><span class="mi">215</span><span class="p">,</span><span class="mi">120</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">35</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">2</span><span class="p">]))</span>
+                           <span class="k">for</span> <span class="n">tournament</span> <span class="ow">in</span> <span class="n">premier_mandatories_96</span><span class="p">}),</span>
+                   <span class="o">**</span><span class="nb">dict</span><span class="p">({</span><span class="n">tournament</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">rounds</span><span class="p">,</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span><span class="mi">650</span><span class="p">,</span><span class="mi">390</span><span class="p">,</span><span class="mi">215</span><span class="p">,</span><span class="mi">120</span><span class="p">,</span><span class="mi">65</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">2</span><span class="p">]))</span>
+                           <span class="k">for</span> <span class="n">tournament</span> <span class="ow">in</span> <span class="n">premier_mandatories_64</span><span class="p">}),</span>
+                   <span class="o">**</span><span class="nb">dict</span><span class="p">({</span><span class="n">tournament</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">rounds</span><span class="p">,</span> <span class="p">[</span><span class="mi">900</span><span class="p">,</span><span class="mi">585</span><span class="p">,</span><span class="mi">350</span><span class="p">,</span><span class="mi">190</span><span class="p">,</span><span class="mi">105</span><span class="p">,</span><span class="mi">60</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">1</span><span class="p">]))</span>
+                           <span class="k">for</span> <span class="n">tournament</span> <span class="ow">in</span> <span class="n">premier_5s</span><span class="p">}),</span>
+                   <span class="o">**</span><span class="nb">dict</span><span class="p">({</span><span class="n">tournament</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">rounds</span><span class="p">,</span> <span class="p">[</span><span class="mi">470</span><span class="p">,</span><span class="mi">305</span><span class="p">,</span><span class="mi">185</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">55</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">1</span><span class="p">]))</span>
+                           <span class="k">for</span> <span class="n">tournament</span> <span class="ow">in</span> <span class="n">premier_56</span><span class="p">}),</span>
+                   <span class="o">**</span><span class="nb">dict</span><span class="p">({</span><span class="n">tournament</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">rounds</span><span class="p">,</span> <span class="p">[</span><span class="mi">470</span><span class="p">,</span><span class="mi">305</span><span class="p">,</span><span class="mi">185</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">55</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">1</span><span class="p">]))</span>
+                           <span class="k">for</span> <span class="n">tournament</span> <span class="ow">in</span> <span class="n">premier_32</span><span class="p">}),</span>
+                   <span class="o">**</span><span class="nb">dict</span><span class="p">({</span><span class="n">tournament</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">rounds</span><span class="p">,</span> <span class="p">[</span><span class="mi">280</span><span class="p">,</span><span class="mi">180</span><span class="p">,</span><span class="mi">110</span><span class="p">,</span><span class="mi">60</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">]))</span>
+                           <span class="k">for</span> <span class="n">tournament</span> <span class="ow">in</span> <span class="n">internationals_3rq</span><span class="p">}),</span>
+                   <span class="o">**</span><span class="nb">dict</span><span class="p">({</span><span class="n">tournament</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">rounds</span><span class="p">,</span> <span class="p">[</span><span class="mi">280</span><span class="p">,</span><span class="mi">180</span><span class="p">,</span><span class="mi">110</span><span class="p">,</span><span class="mi">60</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">1</span><span class="p">]))</span>
+                           <span class="k">for</span> <span class="n">tournament</span> <span class="ow">in</span> <span class="n">internationals_2rq</span><span class="p">}),</span>
+                   <span class="o">**</span><span class="nb">dict</span><span class="p">({</span><span class="n">tournament</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">rounds</span><span class="p">,</span> <span class="p">[</span><span class="mi">160</span><span class="p">,</span><span class="mi">95</span><span class="p">,</span><span class="mi">57</span><span class="p">,</span><span class="mi">29</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">]))</span>
+                           <span class="k">for</span> <span class="n">tournament</span> <span class="ow">in</span> <span class="n">challengers</span><span class="p">})</span>
+                  <span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ignoring bonus points at tournaments with hospitality</span>
+<span class="n">itf_points</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;$100K&#39;</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">rounds</span><span class="p">,</span> <span class="p">[</span><span class="mi">140</span><span class="p">,</span><span class="mi">85</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">])),</span>
+              <span class="s1">&#39;$80K&#39;</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">rounds</span><span class="p">,</span> <span class="p">[</span><span class="mi">115</span><span class="p">,</span><span class="mi">70</span><span class="p">,</span><span class="mi">42</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">])),</span>
+              <span class="s1">&#39;$60K&#39;</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">rounds</span><span class="p">,</span> <span class="p">[</span><span class="mi">80</span><span class="p">,</span><span class="mi">48</span><span class="p">,</span><span class="mi">29</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">])),</span>
+              <span class="s1">&#39;$25K&#39;</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">rounds</span><span class="p">,</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span><span class="mi">30</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">])),</span>
+              <span class="s1">&#39;$15K&#39;</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">rounds</span><span class="p">,</span> <span class="p">[</span><span class="mi">25</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">])),</span>
+              <span class="s1">&#39;$10K&#39;</span> <span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">rounds</span><span class="p">,</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">,</span><span class="s1">&#39;-&#39;</span><span class="p">]))</span>
+             <span class="p">}</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">assign_round_robin_points_earned</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Assigns ranking points for round robin events.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># round robin matches from the WTA Elite Trophy</span>
+    <span class="c1"># are incorrectly recorded as R16</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">df</span><span class="o">.</span><span class="n">tourney_name</span> <span class="o">==</span> <span class="s1">&#39;Zhuhai&#39;</span><span class="p">)</span>
+           <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">tourney_round</span> <span class="o">==</span> <span class="s1">&#39;R16&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;tourney_round&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="s1">&#39;RR&#39;</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;winner_points_dist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">tourney_name</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">round_robin_winner_points</span><span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s1">&#39;loser_points_dist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">tourney_name</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">round_robin_loser_points</span><span class="p">)</span>
+    
+    <span class="n">round_robins</span> <span class="o">=</span> <span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">tourney_name</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;Singapore&#39;</span><span class="p">,</span> <span class="s1">&#39;Zhuhai&#39;</span><span class="p">])</span>
+    
+    <span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">round_robins</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;loser_points_earned&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;loser_points_dist&#39;</span><span class="p">][</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;tourney_round&#39;</span><span class="p">]]</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;loser_points_dist&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="nb">dict</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">round_robins</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;winner_points_earned&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;winner_points_dist&#39;</span><span class="p">][</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;tourney_round&#39;</span><span class="p">]]</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;winner_points_dist&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="nb">dict</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;winner_points_dist&#39;</span><span class="p">,</span> <span class="s1">&#39;loser_points_dist&#39;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">df</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>With these two dictionaries in hand and a function for dealing with the two year end round robin tournaments, I can now actually assign points for winning and losing each match. For most matches, winning is associated with 0 points. This is because the WTA awards points for placement, and the winner of most matches advances to another round. The two key exceptions are finals, where the winner is done with the tournament, and the last round of qualifying, where the winner gets a small ranking points bonus.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># correct some ad hoc inaccuracies and duplicate values in the dataset</span>
+<span class="n">wta_matches_2018</span> <span class="o">=</span> <span class="n">wta_matches</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">wta_matches</span><span class="o">.</span><span class="n">tourney_date</span> <span class="o">&gt;=</span> <span class="mi">20180000</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">loc</span><span class="p">[(</span><span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">tourney_name</span> <span class="o">==</span> <span class="s1">&#39;Moscow&#39;</span><span class="p">)</span>
+                     <span class="o">&amp;</span> <span class="p">(</span><span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">tourney_level</span> <span class="o">==</span> <span class="s1">&#39;I&#39;</span><span class="p">),</span> <span class="s1">&#39;tourney_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Moscow Int&#39;</span>
+<span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">tourney_name</span> <span class="o">==</span> <span class="s1">&#39;Cincinnati&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;tourney_level&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="s1">&#39;P&#39;</span>
+<span class="n">wta_matches_2018</span><span class="p">[</span><span class="s1">&#39;tourney_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">tourney_date</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">tourney_name</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">tourney_level</span>
+
+<span class="c1"># find the points distribution for each match</span>
+<span class="n">wta_matches_2018</span><span class="p">[</span><span class="s1">&#39;points_dist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">tourney_name</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">wta_points_2018</span><span class="p">)</span>
+<span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">points_dist</span><span class="o">.</span><span class="n">isnull</span><span class="p">(),</span> <span class="s1">&#39;points_dist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">tourney_name</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">itf_points</span><span class="p">)</span>
+
+<span class="c1"># assign points earned for match losers</span>
+<span class="n">wta_matches_2018</span><span class="p">[</span><span class="s1">&#39;winner_points_earned&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">wta_matches_2018</span><span class="p">[</span><span class="s1">&#39;loser_points_earned&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="p">(</span><span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">points_dist</span><span class="o">.</span><span class="n">isnull</span><span class="p">()),[</span><span class="s1">&#39;loser_points_earned&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;points_dist&#39;</span><span class="p">][</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;tourney_round&#39;</span><span class="p">]]</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;points_dist&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="nb">dict</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># assign points for tournament winners</span>
+<span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="p">(</span><span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">points_dist</span><span class="o">.</span><span class="n">isnull</span><span class="p">())</span>
+                     <span class="o">&amp;</span> <span class="p">(</span><span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">tourney_round</span> <span class="o">==</span> <span class="s1">&#39;F&#39;</span><span class="p">),[</span><span class="s1">&#39;winner_points_earned&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;points_dist&#39;</span><span class="p">][</span><span class="s1">&#39;W&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;points_dist&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="nb">dict</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># add points for qualifers</span>
+<span class="n">q3_tourneys</span> <span class="o">=</span> <span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">tourney_round</span> <span class="o">==</span> <span class="s1">&#39;Q3&#39;</span><span class="p">,</span> <span class="s1">&#39;tourney_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">q2_tourneys</span> <span class="o">=</span> <span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">tourney_round</span> <span class="o">==</span> <span class="s1">&#39;Q2&#39;</span><span class="p">,</span> <span class="s1">&#39;tourney_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">q2_tourneys</span> <span class="o">=</span> <span class="p">[</span><span class="n">tourney_id</span> <span class="k">for</span> <span class="n">tourney_id</span> <span class="ow">in</span> <span class="n">q2_tourneys</span> <span class="k">if</span> <span class="n">tourney_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">q3_tourneys</span><span class="p">]</span>
+<span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="p">(</span><span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">points_dist</span><span class="o">.</span><span class="n">isnull</span><span class="p">())</span>
+                     <span class="o">&amp;</span> <span class="p">(</span><span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">tourney_id</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">q3_tourneys</span><span class="p">))</span>
+                     <span class="o">&amp;</span> <span class="p">(</span><span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">tourney_round</span> <span class="o">==</span> <span class="s1">&#39;Q3&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;winner_points_earned&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;points_dist&#39;</span><span class="p">][</span><span class="s1">&#39;QLFR&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;points_dist&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="nb">dict</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="p">(</span><span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">points_dist</span><span class="o">.</span><span class="n">isnull</span><span class="p">())</span>
+                     <span class="o">&amp;</span> <span class="p">(</span><span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">tourney_id</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">q2_tourneys</span><span class="p">))</span>
+                     <span class="o">&amp;</span> <span class="p">(</span><span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">tourney_round</span> <span class="o">==</span> <span class="s1">&#39;Q2&#39;</span><span class="p">),</span> <span class="p">[</span><span class="s1">&#39;winner_points_earned&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;points_dist&#39;</span><span class="p">][</span><span class="s1">&#39;QLFR&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;points_dist&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="nb">dict</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># clean up</span>
+<span class="n">wta_matches_2018</span> <span class="o">=</span> <span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;points_dist&#39;</span><span class="p">])</span>
+<span class="c1"># drop Tokyo Premier event, whose data is incomplete</span>
+<span class="n">wta_matches_2018</span> <span class="o">=</span> <span class="n">wta_matches_2018</span><span class="p">[</span><span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">tourney_name</span> <span class="o">!=</span> <span class="s1">&#39;Tokyo&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">wta_matches_2018</span> <span class="o">=</span> <span class="n">assign_round_robin_points_earned</span><span class="p">(</span><span class="n">wta_matches_2018</span><span class="p">)</span>
+
+<span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">loser_points_earned</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;loser_points_earned&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[15]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>index</th>
+      <th>tourney_id</th>
+      <th>tourney_name</th>
+      <th>surface</th>
+      <th>draw_size</th>
+      <th>tourney_level</th>
+      <th>tourney_date</th>
+      <th>match_num</th>
+      <th>winner_id</th>
+      <th>winner_name</th>
+      <th>loser_id</th>
+      <th>loser_name</th>
+      <th>score</th>
+      <th>tourney_round</th>
+      <th>winner_prior_elo</th>
+      <th>loser_prior_elo</th>
+      <th>winner_elo</th>
+      <th>loser_elo</th>
+      <th>winner_points_earned</th>
+      <th>loser_points_earned</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>419867</td>
+      <td>20180101-Auckland-I</td>
+      <td>Auckland</td>
+      <td>Hard</td>
+      <td>32</td>
+      <td>I</td>
+      <td>20180101</td>
+      <td>227</td>
+      <td>203552</td>
+      <td>Risa Ozaki</td>
+      <td>201534</td>
+      <td>Asia Muhammed</td>
+      <td>6-3 6-4</td>
+      <td>Q1</td>
+      <td>1975.983402</td>
+      <td>1891.062594</td>
+      <td>1985.514468</td>
+      <td>1881.356045</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>419868</td>
+      <td>20180101-Auckland-I</td>
+      <td>Auckland</td>
+      <td>Hard</td>
+      <td>32</td>
+      <td>I</td>
+      <td>20180101</td>
+      <td>228</td>
+      <td>201551</td>
+      <td>Arantxa Rus</td>
+      <td>208577</td>
+      <td>Joanna Carswell</td>
+      <td>6-1 6-0</td>
+      <td>Q1</td>
+      <td>2078.363392</td>
+      <td>1414.730465</td>
+      <td>2078.782456</td>
+      <td>1413.451325</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>419869</td>
+      <td>20180101-Auckland-I</td>
+      <td>Auckland</td>
+      <td>Hard</td>
+      <td>32</td>
+      <td>I</td>
+      <td>20180101</td>
+      <td>229</td>
+      <td>214149</td>
+      <td>Viktoria Kuzmova</td>
+      <td>211700</td>
+      <td>Barbora Stefkova</td>
+      <td>6-3 6-3</td>
+      <td>Q1</td>
+      <td>2111.025080</td>
+      <td>1990.651090</td>
+      <td>2120.592237</td>
+      <td>1980.833738</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>419870</td>
+      <td>20180101-Auckland-I</td>
+      <td>Auckland</td>
+      <td>Hard</td>
+      <td>32</td>
+      <td>I</td>
+      <td>20180101</td>
+      <td>230</td>
+      <td>201648</td>
+      <td>Naomi Broady</td>
+      <td>211635</td>
+      <td>Louisa Chirico</td>
+      <td>6-3 6-3</td>
+      <td>Q1</td>
+      <td>2105.838497</td>
+      <td>2042.758726</td>
+      <td>2113.840348</td>
+      <td>2031.190812</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>419871</td>
+      <td>20180101-Auckland-I</td>
+      <td>Auckland</td>
+      <td>Hard</td>
+      <td>32</td>
+      <td>I</td>
+      <td>20180101</td>
+      <td>231</td>
+      <td>203500</td>
+      <td>Sachia Vickery</td>
+      <td>211684</td>
+      <td>Magdalena Frech</td>
+      <td>7-5 6-3</td>
+      <td>Q1</td>
+      <td>2131.485084</td>
+      <td>2078.027988</td>
+      <td>2142.147706</td>
+      <td>2064.698909</td>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Part-3:-Player-Tour-Rankings">Part 3: Player Tour Rankings<a class="anchor-link" href="#Part-3:-Player-Tour-Rankings">&#182;</a></h1><p>The dataset I've just created will be my primary input for the scheduling analysis. However, now that I've done all this work to assign ranking points, we may as well take a look at the year end rankings that I've created.</p>
+<p>First I'm going to create a dataset with a single row per event a player enters. This will include the total points earned by that player at that event, as well as their placement at the tournament. Players can earn points as a round winner or loser, so I split the dataset into winner and loser pieces, rename the columns, and then concatenate the two pieces.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tourney_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;tourney_id&#39;</span><span class="p">,</span> <span class="s1">&#39;tourney_name&#39;</span><span class="p">,</span> <span class="s1">&#39;tourney_date&#39;</span><span class="p">,</span> <span class="s1">&#39;tourney_level&#39;</span><span class="p">]</span>
+<span class="n">winners</span> <span class="o">=</span> <span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s1">&#39;winner_id&#39;</span><span class="p">,</span> <span class="s1">&#39;winner_name&#39;</span><span class="p">,</span> <span class="s1">&#39;winner_points_earned&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">tourney_vars</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;tourney_round&#39;</span><span class="p">]]</span>
+<span class="n">winners</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">winners</span><span class="o">.</span><span class="n">tourney_round</span> <span class="o">==</span> <span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="s1">&#39;tourney_round&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;W&#39;</span>
+<span class="n">losers</span> <span class="o">=</span> <span class="n">wta_matches_2018</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s1">&#39;loser_id&#39;</span><span class="p">,</span> <span class="s1">&#39;loser_name&#39;</span><span class="p">,</span> <span class="s1">&#39;loser_points_earned&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">tourney_vars</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;tourney_round&#39;</span><span class="p">]]</span>
+<span class="n">wta_match_points_2018</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span>
+                         <span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">winners</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;winner_id&#39;</span> <span class="p">:</span> <span class="s1">&#39;player_id&#39;</span><span class="p">,</span> <span class="s1">&#39;winner_points_earned&#39;</span> <span class="p">:</span> <span class="s1">&#39;points_earned&#39;</span><span class="p">,</span> <span class="s1">&#39;winner_name&#39;</span> <span class="p">:</span> <span class="s1">&#39;player_name&#39;</span><span class="p">}),</span>
+                                  <span class="n">losers</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;loser_id&#39;</span> <span class="p">:</span> <span class="s1">&#39;player_id&#39;</span><span class="p">,</span> <span class="s1">&#39;loser_points_earned&#39;</span> <span class="p">:</span> <span class="s1">&#39;points_earned&#39;</span><span class="p">,</span> <span class="s1">&#39;loser_name&#39;</span> <span class="p">:</span> <span class="s1">&#39;player_name&#39;</span><span class="p">})</span>
+                                 <span class="p">])</span>
+                         <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;player_id&#39;</span><span class="p">,</span> <span class="s1">&#39;tourney_date&#39;</span><span class="p">,</span> <span class="s1">&#39;tourney_name&#39;</span><span class="p">])</span>
+                        <span class="p">)</span>
+
+<span class="n">wta_match_points_2018</span><span class="p">[</span><span class="s1">&#39;round_order&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wta_match_points_2018</span><span class="o">.</span><span class="n">tourney_round</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">rounds_dict</span><span class="p">)</span>
+
+<span class="n">player_events</span> <span class="o">=</span> <span class="p">(</span><span class="n">wta_match_points_2018</span>
+                 <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;player_id&#39;</span><span class="p">,</span> <span class="s1">&#39;player_name&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">tourney_vars</span> <span class="o">+</span> <span class="p">[</span><span class="s1">&#39;round_order&#39;</span><span class="p">])</span>
+                 <span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;player_id&#39;</span><span class="p">,</span> <span class="s1">&#39;player_name&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">tourney_vars</span><span class="p">)</span>
+                <span class="p">)</span>
+<span class="n">point_sums</span> <span class="o">=</span> <span class="n">player_events</span><span class="p">[</span><span class="s1">&#39;points_earned&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="n">last_rounds</span> <span class="o">=</span> <span class="n">player_events</span><span class="p">[</span><span class="s1">&#39;tourney_round&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">last</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;exit_round&#39;</span><span class="p">)</span>
+<span class="n">player_results</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">point_sums</span><span class="p">,</span> <span class="n">last_rounds</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                  <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;player_id&#39;</span><span class="p">,</span> <span class="s1">&#39;player_name&#39;</span><span class="p">,</span> <span class="s1">&#39;points_earned&#39;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                  <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+                 <span class="p">)</span>
+<span class="n">player_results</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">player_results</span><span class="o">.</span><span class="n">tourney_name</span> <span class="o">==</span> <span class="s1">&#39;Auckland&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[16]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>player_id</th>
+      <th>player_name</th>
+      <th>tourney_id</th>
+      <th>tourney_name</th>
+      <th>tourney_date</th>
+      <th>tourney_level</th>
+      <th>points_earned</th>
+      <th>exit_round</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>19913</th>
+      <td>201534</td>
+      <td>Asia Muhammed</td>
+      <td>20180101-Auckland-I</td>
+      <td>Auckland</td>
+      <td>20180101</td>
+      <td>I</td>
+      <td>1</td>
+      <td>Q1</td>
+    </tr>
+    <tr>
+      <th>20249</th>
+      <td>201506</td>
+      <td>Sara Errani</td>
+      <td>20180101-Auckland-I</td>
+      <td>Auckland</td>
+      <td>20180101</td>
+      <td>I</td>
+      <td>1</td>
+      <td>R32</td>
+    </tr>
+    <tr>
+      <th>20297</th>
+      <td>201504</td>
+      <td>Julia Goerges</td>
+      <td>20180101-Auckland-I</td>
+      <td>Auckland</td>
+      <td>20180101</td>
+      <td>I</td>
+      <td>280</td>
+      <td>W</td>
+    </tr>
+    <tr>
+      <th>20357</th>
+      <td>201496</td>
+      <td>Caroline Wozniacki</td>
+      <td>20180101-Auckland-I</td>
+      <td>Auckland</td>
+      <td>20180101</td>
+      <td>I</td>
+      <td>180</td>
+      <td>F</td>
+    </tr>
+    <tr>
+      <th>20472</th>
+      <td>201483</td>
+      <td>Madison Brengle</td>
+      <td>20180101-Auckland-I</td>
+      <td>Auckland</td>
+      <td>20180101</td>
+      <td>I</td>
+      <td>1</td>
+      <td>R32</td>
+    </tr>
+    <tr>
+      <th>20482</th>
+      <td>201478</td>
+      <td>Varvara Lepchenko</td>
+      <td>20180101-Auckland-I</td>
+      <td>Auckland</td>
+      <td>20180101</td>
+      <td>I</td>
+      <td>30</td>
+      <td>R16</td>
+    </tr>
+    <tr>
+      <th>20506</th>
+      <td>201474</td>
+      <td>Agnieszka Radwanska</td>
+      <td>20180101-Auckland-I</td>
+      <td>Auckland</td>
+      <td>20180101</td>
+      <td>I</td>
+      <td>60</td>
+      <td>QF</td>
+    </tr>
+    <tr>
+      <th>20545</th>
+      <td>201465</td>
+      <td>Kirsten Flipkens</td>
+      <td>20180101-Auckland-I</td>
+      <td>Auckland</td>
+      <td>20180101</td>
+      <td>I</td>
+      <td>30</td>
+      <td>R16</td>
+    </tr>
+    <tr>
+      <th>20600</th>
+      <td>201444</td>
+      <td>Su Wei Hsieh</td>
+      <td>20180101-Auckland-I</td>
+      <td>Auckland</td>
+      <td>20180101</td>
+      <td>I</td>
+      <td>110</td>
+      <td>SF</td>
+    </tr>
+    <tr>
+      <th>20786</th>
+      <td>201366</td>
+      <td>Barbora Zahlavova Strycova</td>
+      <td>20180101-Auckland-I</td>
+      <td>Auckland</td>
+      <td>20180101</td>
+      <td>I</td>
+      <td>60</td>
+      <td>QF</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now each player has a single row per event. To compute the player's ranking points, we need to select the events that make it into their final ranking.</p>
+<p>The WTA ranking rules are a bit complicated, but they basically work like this:</p>
+<ol>
+<li>Each player's best 16 results count.</li>
+<li>Top players must count certain events (Grand Slams and Premier Mandatories).</li>
+<li>The WTA finals count as a bonus event for those who attend.</li>
+</ol>
+<p>Technically, I must determine the top players that must attend the mandatory events and then include that event (with 0 points) in their rankings, but determining the top players requires the rolling 52 week rankings (which requires rankings for 2017 as well). Most players who need to attend the events actually attend them (those who don't are usually injured), so instead I count the mandatory events that they participated in to determine how many non-mandatory events can count for their ranking. This means that I give too many points to players that skip a mandatory event but attend more than 16 tournaments.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">assign_player_points</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">max_num_events</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">required_levels</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="s1">&#39;PM&#39;</span><span class="p">]):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Processes a dataframe of player events to determine</span>
+<span class="sd">    the events that contribute to a player&#39;s ranking.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="n">mandatories</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">tourney_level</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="s1">&#39;PM&#39;</span><span class="p">])]</span>
+    <span class="n">wta_finals</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">tourney_name</span> <span class="o">==</span> <span class="s1">&#39;Singapore&#39;</span><span class="p">]</span>
+    <span class="n">num_mandatories</span> <span class="o">=</span> <span class="p">(</span><span class="n">mandatories</span>
+                       <span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;player_id&#39;</span><span class="p">,</span> <span class="s1">&#39;player_name&#39;</span><span class="p">])</span>
+                       <span class="p">[</span><span class="s1">&#39;points_earned&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+                       <span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;num_mandatories&#39;</span><span class="p">))</span>
+    <span class="n">num_events</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;player_id&#39;</span><span class="p">,</span> <span class="s1">&#39;player_name&#39;</span><span class="p">])[</span><span class="s1">&#39;points_earned&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;num_events&#39;</span><span class="p">)</span>
+
+    <span class="n">players</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">num_mandatories</span><span class="p">,</span> <span class="n">num_events</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">players</span><span class="p">[</span><span class="s1">&#39;num_non_mandatories&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">max_num_events</span> <span class="o">-</span> <span class="n">players</span><span class="p">[</span><span class="s1">&#39;num_mandatories&#39;</span><span class="p">]</span>
+    
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="s1">&#39;player_id&#39;</span><span class="p">,</span> <span class="s1">&#39;player_name&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">players</span><span class="p">)</span>
+    
+    <span class="n">non_mandatories</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">tourney_level</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="s1">&#39;PM&#39;</span><span class="p">]))</span>
+                              <span class="o">&amp;</span> <span class="o">~</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">tourney_name</span> <span class="o">==</span> <span class="s1">&#39;Singapore&#39;</span><span class="p">)])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+
+    <span class="n">non_mandatories_points</span> <span class="o">=</span> <span class="p">(</span><span class="n">non_mandatories</span>
+                              <span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;player_id&#39;</span><span class="p">,</span> <span class="s1">&#39;player_name&#39;</span><span class="p">],</span> <span class="n">group_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                              <span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+                                  <span class="k">lambda</span> <span class="n">group</span> <span class="p">:</span> <span class="n">group</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">group</span><span class="p">[</span><span class="s1">&#39;num_non_mandatories&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+                              <span class="p">)</span>
+                              <span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;num_mandatories&#39;</span><span class="p">,</span> <span class="s1">&#39;num_events&#39;</span><span class="p">,</span> <span class="s1">&#39;num_non_mandatories&#39;</span><span class="p">])</span>
+                             <span class="p">)</span>
+    
+    <span class="n">player_events_points</span> <span class="o">=</span> <span class="p">(</span><span class="n">pd</span>
+                            <span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">mandatories</span><span class="p">,</span> <span class="n">non_mandatories_points</span><span class="p">,</span> <span class="n">wta_finals</span><span class="p">],</span> <span class="n">sort</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                            <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;player_id&#39;</span><span class="p">,</span> <span class="s1">&#39;player_name&#39;</span><span class="p">,</span> <span class="s1">&#39;points_earned&#39;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                            <span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                           <span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">player_events_points</span>
+
+    
+<span class="n">player_events_points</span> <span class="o">=</span> <span class="n">assign_player_points</span><span class="p">(</span><span class="n">player_results</span><span class="p">)</span>
+<span class="n">event_counts</span> <span class="o">=</span> <span class="p">(</span><span class="n">player_events_points</span>
+                <span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;player_id&#39;</span><span class="p">,</span> <span class="s1">&#39;player_name&#39;</span><span class="p">])</span>
+                <span class="o">.</span><span class="n">cumcount</span><span class="p">()</span>
+               <span class="p">)</span>
+<span class="n">player_events_points</span><span class="p">[</span><span class="s1">&#39;cum_count&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">event_counts</span>
+<span class="n">player_events_points</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">player_events_points</span><span class="o">.</span><span class="n">player_name</span> <span class="o">==</span> <span class="s1">&#39;Simona Halep&#39;</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[17]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>player_id</th>
+      <th>player_name</th>
+      <th>tourney_id</th>
+      <th>tourney_name</th>
+      <th>tourney_date</th>
+      <th>tourney_level</th>
+      <th>points_earned</th>
+      <th>exit_round</th>
+      <th>cum_count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>16844</th>
+      <td>201594</td>
+      <td>Simona Halep</td>
+      <td>20180528-Roland Garros-G</td>
+      <td>Roland Garros</td>
+      <td>20180528</td>
+      <td>G</td>
+      <td>2000</td>
+      <td>W</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>16845</th>
+      <td>201594</td>
+      <td>Simona Halep</td>
+      <td>20180115-Australian Open-G</td>
+      <td>Australian Open</td>
+      <td>20180115</td>
+      <td>G</td>
+      <td>1300</td>
+      <td>F</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>16846</th>
+      <td>201594</td>
+      <td>Simona Halep</td>
+      <td>20180806-Montreal-P</td>
+      <td>Montreal</td>
+      <td>20180806</td>
+      <td>P</td>
+      <td>900</td>
+      <td>W</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>16847</th>
+      <td>201594</td>
+      <td>Simona Halep</td>
+      <td>20180514-Rome-P</td>
+      <td>Rome</td>
+      <td>20180514</td>
+      <td>P</td>
+      <td>585</td>
+      <td>F</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>16848</th>
+      <td>201594</td>
+      <td>Simona Halep</td>
+      <td>20180813-Cincinnati-P</td>
+      <td>Cincinnati</td>
+      <td>20180813</td>
+      <td>P</td>
+      <td>585</td>
+      <td>F</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <th>16849</th>
+      <td>201594</td>
+      <td>Simona Halep</td>
+      <td>20180305-Indian Wells-PM</td>
+      <td>Indian Wells</td>
+      <td>20180305</td>
+      <td>PM</td>
+      <td>390</td>
+      <td>SF</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>16850</th>
+      <td>201594</td>
+      <td>Simona Halep</td>
+      <td>20180212-Doha-P</td>
+      <td>Doha</td>
+      <td>20180212</td>
+      <td>P</td>
+      <td>350</td>
+      <td>SF</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>16851</th>
+      <td>201594</td>
+      <td>Simona Halep</td>
+      <td>20180101-Shenzhen-I</td>
+      <td>Shenzhen</td>
+      <td>20180101</td>
+      <td>I</td>
+      <td>280</td>
+      <td>W</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>16852</th>
+      <td>201594</td>
+      <td>Simona Halep</td>
+      <td>20180507-Madrid-PM</td>
+      <td>Madrid</td>
+      <td>20180507</td>
+      <td>PM</td>
+      <td>215</td>
+      <td>QF</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>16853</th>
+      <td>201594</td>
+      <td>Simona Halep</td>
+      <td>20180702-Wimbledon-G</td>
+      <td>Wimbledon</td>
+      <td>20180702</td>
+      <td>G</td>
+      <td>130</td>
+      <td>R32</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>16854</th>
+      <td>201594</td>
+      <td>Simona Halep</td>
+      <td>20180423-Stuttgart-P</td>
+      <td>Stuttgart</td>
+      <td>20180423</td>
+      <td>P</td>
+      <td>100</td>
+      <td>QF</td>
+      <td>10</td>
+    </tr>
+    <tr>
+      <th>16855</th>
+      <td>201594</td>
+      <td>Simona Halep</td>
+      <td>20180319-Miami-PM</td>
+      <td>Miami</td>
+      <td>20180319</td>
+      <td>PM</td>
+      <td>65</td>
+      <td>R32</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <th>16856</th>
+      <td>201594</td>
+      <td>Simona Halep</td>
+      <td>20180924-Wuhan-P</td>
+      <td>Wuhan</td>
+      <td>20180924</td>
+      <td>P</td>
+      <td>60</td>
+      <td>R32</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>16857</th>
+      <td>201594</td>
+      <td>Simona Halep</td>
+      <td>20180827-US Open-G</td>
+      <td>US Open</td>
+      <td>20180827</td>
+      <td>G</td>
+      <td>10</td>
+      <td>R128</td>
+      <td>13</td>
+    </tr>
+    <tr>
+      <th>16858</th>
+      <td>201594</td>
+      <td>Simona Halep</td>
+      <td>20181001-Beijing-PM</td>
+      <td>Beijing</td>
+      <td>20181001</td>
+      <td>PM</td>
+      <td>10</td>
+      <td>R64</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <th>16859</th>
+      <td>201594</td>
+      <td>Simona Halep</td>
+      <td>20180421-Fed Cup WG R1: SUI vs ROU-D</td>
+      <td>Fed Cup WG R1: SUI vs ROU</td>
+      <td>20180421</td>
+      <td>D</td>
+      <td>0</td>
+      <td>RR</td>
+      <td>15</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here we can see how Simona Halep's ranking is calculated. She only played 15 WTA events, so Davis Cup appears as her 16th. While Davis Cup doesn't contribute to a player's ranking, I include it anyways to contribute to a player's Elo rating.</p>
+<p>Her best events were Roland Garros, her first Slam title, and the Australian Open, where she made the final. She also won two other events and made two more finals. We can see that making the semifinals of Doha was worth more points than winning Shenzhen because Doha has a higher classification.</p>
+<p>Now I'm going to create a dataset of the year end rankings for the WTA tour. It will include the player's ranking points, Elo at the end of 2017, and Elo at the end of 2018.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">year_end_points</span> <span class="o">=</span> <span class="p">(</span><span class="n">player_events_points</span>
+                   <span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;player_id&#39;</span><span class="p">,</span> <span class="s1">&#39;player_name&#39;</span><span class="p">])</span>
+                   <span class="o">.</span><span class="n">points_earned</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+                   <span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+                   <span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;player_id&#39;</span><span class="p">)</span>
+                  <span class="p">)</span>
+
+<span class="n">year_end_2017</span> <span class="o">=</span> <span class="n">player_elo_matches</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">player_elo_matches</span><span class="o">.</span><span class="n">tourney_date</span> <span class="o">&lt;</span> <span class="mi">20180000</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;player_id&#39;</span><span class="p">])[</span><span class="s1">&#39;elo&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">last</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;year_end_elo_2017&#39;</span><span class="p">)</span>
+<span class="n">year_end_2018</span> <span class="o">=</span> <span class="n">player_elo_matches</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">player_elo_matches</span><span class="o">.</span><span class="n">tourney_date</span> <span class="o">&lt;</span> <span class="mi">20190000</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;player_id&#39;</span><span class="p">])[</span><span class="s1">&#39;elo&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">last</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;year_end_elo_2018&#39;</span><span class="p">)</span>
+<span class="n">year_end_elos</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">year_end_2017</span><span class="p">,</span> <span class="n">year_end_2018</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">year_end</span> <span class="o">=</span> <span class="n">year_end_elos</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">year_end_points</span><span class="p">)</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;points_earned&#39;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">year_end</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[18]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>player_id</th>
+      <th>year_end_elo_2017</th>
+      <th>year_end_elo_2018</th>
+      <th>player_name</th>
+      <th>points_earned</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>201594</td>
+      <td>2531.231548</td>
+      <td>2559.709232</td>
+      <td>Simona Halep</td>
+      <td>6980.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>201493</td>
+      <td>2387.860367</td>
+      <td>2474.698164</td>
+      <td>Angelique Kerber</td>
+      <td>5935.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>201496</td>
+      <td>2500.566142</td>
+      <td>2486.431677</td>
+      <td>Caroline Wozniacki</td>
+      <td>5670.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>202494</td>
+      <td>2496.132221</td>
+      <td>2524.386616</td>
+      <td>Elina Svitolina</td>
+      <td>5350.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>201585</td>
+      <td>2375.869086</td>
+      <td>2448.500033</td>
+      <td>Sloane Stephens</td>
+      <td>5122.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>211768</td>
+      <td>2260.047539</td>
+      <td>2436.830600</td>
+      <td>Naomi Osaka</td>
+      <td>4811.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>202428</td>
+      <td>2256.849191</td>
+      <td>2430.350547</td>
+      <td>Kiki Bertens</td>
+      <td>4510.0</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>201520</td>
+      <td>2451.155998</td>
+      <td>2466.174167</td>
+      <td>Petra Kvitova</td>
+      <td>4380.0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>201662</td>
+      <td>2488.257860</td>
+      <td>2478.235951</td>
+      <td>Karolina Pliskova</td>
+      <td>4105.0</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>214082</td>
+      <td>2410.974469</td>
+      <td>2437.646676</td>
+      <td>Darya Kasatkina</td>
+      <td>3440.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>These points do not perfectly match those published by the WTA, but they are close enough to suggest that I have the most important features of the ranking system working.</p>
+<p>As this entire notebook was all about preprocessing, I need to save the important datasets.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dest_path</span> <span class="o">=</span> <span class="s1">&#39;/Users/admin/Documents/Personal_Data_Project/2_Tennis/1_Processed_Research_Files/&#39;</span>
+<span class="n">save_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">({</span><span class="s1">&#39;wta_player_events&#39;</span> <span class="p">:</span> <span class="n">player_events_points</span><span class="p">,</span>
+                  <span class="s1">&#39;wta_matches_2018&#39;</span> <span class="p">:</span> <span class="n">wta_matches_2018</span><span class="p">,</span>
+                  <span class="s1">&#39;wta_year_end&#39;</span> <span class="p">:</span> <span class="n">year_end</span>
+                 <span class="p">})</span>
+<span class="k">for</span> <span class="n">df_name</span> <span class="ow">in</span> <span class="n">save_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">save_dict</span><span class="p">[</span><span class="n">df_name</span><span class="p">]</span><span class="o">.</span><span class="n">to_pickle</span><span class="p">(</span><span class="n">dest_path</span> <span class="o">+</span> <span class="n">df_name</span> <span class="o">+</span> <span class="s1">&#39;.pkl&#39;</span><span class="p">)</span>
+
+<span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">itf_points</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">dest_path</span> <span class="o">+</span> <span class="s1">&#39;itf_points_dict.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">))</span>
+<span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">wta_points_2018</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="n">dest_path</span> <span class="o">+</span> <span class="s1">&#39;wta_points_dict.pkl&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<hr>
+<h1 id="Footnotes">Footnotes<a class="anchor-link" href="#Footnotes">&#182;</a></h1><p><strong>[1]</strong> There are two wrinkles for awarding ranking points that I ignore:</p>
+<ol>
+<li>Players that get a bye into the second round and lose the second round match get fewer points than players who win their first round match and lose in the second round.</li>
+<li>There is actually an additional stratification for ITF tournaments that slightly affects awarded ranking points (whether the tournament provides hospitality), but I have no way of identifying those tournaments using this dataset.</li>
+</ol>
+
+</div>
+</div>
+</div>
+ 
+
+
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: 'center'," +
+        "    displayIndent: '0em'," +
+        "    showMathMenu: true," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['$','$'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        " linebreaks: { automatic: true, width: '95% container' }, " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+        "    } " +
+        "}); ";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+
+            </div><!-- /.entry-content -->
+
+
+        </div><!-- /.eleven.columns -->
+
+<div class="three columns">
+
+  <h4>Pages</h4>
+
+  <ul>
+
+  
+
+
+
+
+
+</div> </div><!-- /.row -->
+
+
+</section>
+
+       </div><!-- /.row -->
+    </div><!-- /.container -->
+
+
+       <div class="container.nopad bg">
+
+    
+        <footer id="credits" class="row">
+          <div class="seven columns left-center">
+
+                   <address id="about" class="vcard body">
+                    Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                    which takes great advantage of <a href="http://python.org">Python</a>.
+                    <br />
+                    Based on the <a target="_blank" href="http://gumbyframework.com">Gumby Framework</a>
+                    </address>
+          </div>
+
+
+          <div class="seven columns">
+            <div class="row">
+              <ul class="socbtns">
+
+
+
+
+
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+    </div>
+
+
+  <script src="https://joshkaps.github.io/theme/js/libs/jquery-1.9.1.min.js"></script>
+  <script src="https://joshkaps.github.io/theme/js/libs/gumby.min.js"></script>
+  <script src="https://joshkaps.github.io/theme/js/plugins.js"></script>
+</body>
+</html>
